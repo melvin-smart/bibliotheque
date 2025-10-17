@@ -1,0 +1,116 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Gestion des utilisateurs
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid p-3">
+		<div class="card mt-3">
+			<div class="card-header d-flex justify-content-between align-item-center">
+				<h2>
+					{% if user == 'bibliothecaire' %}
+						Liste des bibliothecaires
+					{% else %}
+						Liste des emprunteurs
+					{% endif %}
+				</h2>
+				{% if user == 'bibliothecaire' %}
+					<a class="btn btn-primary fw-bold shadow" href="{{path('admin_bibliothecaire_new')}}">
+						<i class="fa fa-plus"></i>
+						Ajouter un bibliothecaire</a>
+				{% else %}
+					<a class="btn btn-primary fw-bold shadow" href="{{path('admin_emprunteur_new')}}">
+						<i class="fa fa-plus"></i>
+						Ajouter un emprunteur</a>
+				{% endif %}
+			</div>
+			<div class="card-body mt-2">
+				{% if user == 'bibliothecaire' %}
+					<table class="table table-striped text-center">
+						<thead class="table-primary">
+							<tr>
+								<th>N°</th>
+								<th>Nom Complet</th>
+								<th>email</th>
+								<th>telephone</th>
+								<th>Options</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% set i = 0 %}
+							{% for bibliothecaire in bibliothecaires %}
+								{% set i = i + 1 %}
+								<tr>
+									<td>{{i}}</td>
+									<td>{{bibliothecaire.nom}}
+										{{bibliothecaire.prenom}}</td>
+									<td>{{bibliothecaire.email}}</td>
+									<td>{{bibliothecaire.phone}}</td>
+									<td>
+										<a href="{{path('admin_bibliothecaire_edit', {'id' : bibliothecaire.id})}}" class="btn btn-success btn-sm shadow" title="Modifier">
+											<i class="fa fa-pen"></i>
+										</a>
+										{# <form action="{{path('admin_livre_delete', {'id' : livre.id})}}" method="POST" style="display : inline" onsubmit="return confirm('Confirmez vous cette suppression ?');">
+											<input type="hidden" name="_token" value="{{csrf_token('delete' ~ livre.id)}}">
+											<button type="submit" class="btn btn-sm btn-danger">
+												<i class="fa fa-trash"></i>
+											</button>
+										</form> #}
+									</td>
+								</tr>
+							{% else %}
+								<tr>
+									<td colspan="5" class="text-center">Aucun bibliothecaire trouvé pour le moment !</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					<table class="table table-striped text-center">
+						<thead class="table-primary">
+							<tr>
+								<th>N°</th>
+								<th>Nom Complet</th>
+								<th>email</th>
+								<th>telephone</th>
+                                {# <th>Date inscription</th> #}
+								<th>Options</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% set i = 0 %}
+							{% for emprunteur in emprunteurs %}
+								{% set i = i + 1 %}
+								<tr>
+									<td>{{i}}</td>
+									<td>{{emprunteur.nom}}
+										{{emprunteur.prenom}}</td>
+									<td>{{emprunteur.email}}</td>
+									<td>{{emprunteur.phone}}</td>
+									{# <td>{{emprunteur.dateInscription}}</td> #}
+									<td>
+										<a href="{{path('admin_emprunteur_edit', {'id' : emprunteur.id})}}" class="btn btn-success btn-sm shadow" title="Modifier">
+											<i class="fa fa-pen"></i>
+										</a>
+										{# <form action="{{path('admin_livre_delete', {'id' : livre.id})}}" method="POST" style="display : inline" onsubmit="return confirm('Confirmez vous cette suppression ?');">
+											<input type="hidden" name="_token" value="{{csrf_token('delete' ~ livre.id)}}">
+											<button type="submit" class="btn btn-sm btn-danger">
+												<i class="fa fa-trash"></i>
+											</button>
+										</form> #}
+									</td>
+								</tr>
+							{% else %}
+								<tr>
+									<td colspan="5" class="text-center">Aucun emprunteur trouvé pour le moment !</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
+			</div>
+		</div>
+
+	</div>
+
+{% endblock %}

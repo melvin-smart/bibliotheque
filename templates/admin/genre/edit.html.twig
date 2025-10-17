@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Gestion des genres
+{% endblock %}
+
+{% block body %}
+	<div class="container p-3">
+		<div class="card mt-3">
+			<div class="card-header">
+                <h2>Modifier le genre : {{genre.intitule}} </h2>
+            </div>
+			<div class="card-body mt-2">
+                {{form_start(form, {'attr' : {'class' : 'row'}})}}
+                <div class="col-12">{{form_row(form.intitule)}}</div>
+                {{form_end(form)}}
+                <a href="{{path('admin_genre_index')}}" class="btn btn-secondary w-25 fw-bold shadow">Retour a la liste</a>
+            </div>
+		</div>
+
+	</div>
+
+{% endblock %}

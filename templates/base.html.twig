@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+		{% block stylesheets %}
+			<link rel="stylesheet" href="{{asset('css/style.css')}}">
+			<link rel="stylesheet" href="{{asset('css/fontawesome.min.css')}}">
+			<link rel="stylesheet" href="{{asset('bootstrap/bootstrap.min.css')}}">
+		{% endblock %}
+
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+			<script src="{{asset('bootstrap/popper.min.js')}}"></script>
+			<script src="{{asset('bootstrap/bootstrap.min.js')}}"></script>
+		{% endblock %}
+	</head>
+	<body>
+		{% if app.user %}
+			<nav class="navbar navbar-expand-lg navbar-dark bg-success fixed-top shadow ps-3">
+				<a href="{{path('admin')}}" class="navbar-brand fw-bold text">
+					<i>Smart-Biblio</i>
+				</a>
+
+				<button type="button" name="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse justify-content-center" id="menu">
+					<ul class="navbar-nav text-center text-lg-start mt-5 mt-lg-0 nav-pills">
+						<li class="nav-item me-5 mb-2 mb-lg-0">
+							<a href="" class="nav-link shadow profil">
+								<i class="fa fa-home" aria-hidden="true">
+									Dashboard</i>
+							</a>
+						</li>
+						<li class="nav-item me-5 mb-2 mb-lg-0">
+							<a href="{{path('admin_genre_index')}}" class="nav-link shadow profil {{app.current_route starts with 'admin_genre' ? 'active' : ''}}">
+								<i class="fa fa-cubes" aria-hidden="true">
+									Genres</i>
+							</a>
+						</li>
+						<li class="nav-item me-5 mb-2 mb-lg-0">
+							<a href="{{path('admin_livre_index')}}" class="nav-link shadow profil {{app.current_route starts with 'admin_livre' ? 'active' : ''}}">
+								<i class="fa fa-book-open" aria-hidden="true">
+									Livres</i>
+							</a>
+						</li>
+						<li class="nav-item me-5 mb-2 mb-lg-0">
+							<a href="" class="nav-link shadow profil">
+								<i class="fa fa-recycle" aria-hidden="true">
+									Emprunts</i>
+							</a>
+						</li>
+						{% if is_granted('ROLE_ADMIN') %}
+							<li class="nav-item dropdown me-5 mb-2 mb-lg-0">
+								<a href="#" class="nav-link dropdown-toggle profil shadow {{app.current_route starts with 'admin_emprunteur' or 'admin_bibliothecaire' ? 'active' : ''}} " id="users" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="fa fa-users" aria-hidden="true">
+										Utilisateurs</i>
+								</a>
+								<div class="dropdown-menu" aria-labelledby="users">
+									<a class="dropdown-item" href="{{path('admin_bibliothecaire_index')}}">Bibliothécaires</a>
+									<a class="dropdown-item" href="{{path('admin_emprunteur_index')}}">Emprunteurs</a>
+								</div>
+							</li>
+						{% else %}
+							<li class="nav-item me-5 mb-2 mb-lg-0">
+								<a href="{{path('admin_emprunteur_index')}}" class="nav-link shadow profil">
+									<i class="fa fa-users" aria-hidden="true">
+										Emprunteurs</i>
+								</a>
+							</li>
+						{% endif %}
+					</ul>
+
+					<div class="dropdown mt-2 mt-lg-0">
+						<button class="btn shadow btn-info dropdown-toggle" type="button" id="profil" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fa fa-user" aria-hidden="true"></i>
+							<span class="fw-bold ms-1">{{app.user.prenom}}</span>
+						</button>
+						<div class="dropdown-menu" aria-labelledby="profil">
+							<a class="dropdown-item" href="#">Mon profil</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" onclick="return confirm('Poursuivre la deconnexion ?');" href="{{path('app_logout')}}">Deconnexion
+							</a>
+						</div>
+					</div>
+
+
+				</div>
+			</nav>
+
+			<div class="container-fluid mt-3">
+				{% for label, messages in app.flashes %}
+					{% for message in messages %}
+						<div class="alert alert-{{label}} text-center">
+							<strong>{{message}}</strong>
+						</div>
+					{% endfor %}
+				{% endfor %}
+			</div>
+
+		
+		{% endif %}
+
+		{% block body %}{% endblock %}
+	</body>
+</html></div></body></html></div></body></html>

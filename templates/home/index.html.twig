@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Smart-Biblio
+{% endblock %}
+
+{% block body %}
+
+	<div class="container mt-5">
+		<div class="jumbotron text-center bg-light p-5 rounded">
+			<h1 class="display-4 fw-bold">Bienvenue à
+				<i class="text-success">Smart-Biblio !</i>
+			</h1>
+			<p class="lead">Gérez facilement vos livres, genres et emprunts.</p>
+			<hr class="my-4">
+			<p>Utilisez le menu de navigation ci-dessus pour explorer les différentes sections de l'application.</p>
+			<a class="btn btn-primary fw-bold shadow btn-lg" href="{{path('admin_livre_index')}}" role="button">Voir les livres disponibles</a>
+		</div>
+	</div>
+
+
+</div>{% endblock %}

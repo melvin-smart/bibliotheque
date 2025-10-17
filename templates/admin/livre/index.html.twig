@@ -1,0 +1,83 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Gestion des livres
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid p-3">
+		<div class="card mt-3">
+			<div class="card-header d-flex justify-content-between align-item-center">
+				<h2>Liste des livres</h2>
+				<a href="{{path('admin_livre_new')}}" class="btn btn-primary fw-bold shadow">
+					<i class="fa fa-plus"></i>
+					Ajouter un livre</a>
+			</div>
+			<div class="card-body mt-2">
+				<table class="table table-striped text-center">
+					<thead class="table-primary">
+						<tr>
+							<th>N°</th>
+							<th>Titre</th>
+							<th>Image</th>
+							<th>Auteur</th>
+							<th>ISBN</th>
+							<th>Genre</th>
+							{# <th>Date de publication</th> #}
+							<th>Quantité totale</th>
+							<th>Quantité disponible</th>
+							<th>Description</th>
+							<th>Options</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% set i = 0 %}
+						{% for livre in livres %}
+							{% set i = i + 1 %}
+							<tr>
+								<td>{{i}}</td>
+								<td>{{livre.titre}}</td>
+								<td>
+									{% if livre.imgLivres|length > 0 %}
+										<img src="{{asset('uploads/livre/' ~ livre.imgLivres[0].filename)}}" alt="{{livre.imglivres[0].filename}}" style=" max-width: 60px; height: auto;">
+									{% else %}
+										N/A
+									{% endif %}
+								</td>
+								<td>{{livre.auteur}}</td>
+								<td>{{livre.isbn}}</td>
+								<td>{{livre.genre.intitule}}</td>
+								{# <td>{{livre.datePublication}}</td> #}
+								<td>{{livre.qteTotale}}</td>
+								<td>{{livre.qteDispo}}</td>
+								{% if livre.description %}
+									<td>{{livre.description}}</td>
+								{% else %}
+									<td>
+										<span class="badge bg-danger">Null</span>
+									</td>
+								{% endif %}
+								<td>
+									<a href="{{path('admin_livre_edit', {'id' : livre.id})}}" class="btn btn-success btn-sm shadow" title="Modifier">
+										<i class="fa fa-pen"></i>
+									</a>
+									<form action="{{path('admin_livre_delete', {'id' : livre.id})}}" method="POST" style="display : inline" onsubmit="return confirm('Confirmez vous cette suppression ?');">
+										<input type="hidden" name="_token" value="{{csrf_token('delete' ~ livre.id)}}">
+										<button type="submit" class="btn btn-sm btn-danger">
+											<i class="fa fa-trash"></i>
+										</button>
+									</form>
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="10" class="text-center">Aucun livre trouvé pour le moment !</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+{% endblock %}

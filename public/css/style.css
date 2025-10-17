@@ -1,0 +1,25 @@
+body {
+    position: relative !important;
+    padding-top: 50px !important;
+}
+
+body::before {
+    position: absolute !important;
+    content: '' !important;
+    height: 100vh !important;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    background: url('../img/background/livres1.jpeg') !important;
+    background-size: cover !important;
+    filter: brightness(.5) contrast(1.2) !important;
+    z-index: -1 !important;
+}
+
+.profil:hover {
+    transform: scale(1.1) !important;
+    color: #fff !important;
+    background: #0d6efd !important;
+    transition: .4s ease-in-out !important;
+}
+

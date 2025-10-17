@@ -1,0 +1,53 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Gestion des genres
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid p-3">
+		<div class="card mt-3">
+			<div class="card-header d-flex justify-content-between align-item-center">
+				<h2>Liste des genres</h2>
+				<a href="{{path('admin_genre_new')}}" class="btn btn-primary fw-bold shadow">
+					<i class="fa fa-plus"></i>
+					Ajouter un genre</a>
+			</div>
+			<div class="card-body mt-2">
+				<table class="table table-striped text-center">
+					<thead class="table-primary">
+						<tr>
+							<th>N°</th>
+							<th>Intitulé</th>
+							<th>Options</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% set i = 0 %}
+						{% for genre in genres %}
+							{% set i = i + 1 %}
+							<tr>
+								<td>{{i}}</td>
+								<td>{{genre.intitule}}</td>
+								<td>
+									<a href="{{path('admin_genre_edit', {'id' : genre.id})}}" class="btn btn-success btn-sm shadow" title="Modifier">
+										<i class="fa fa-pen"></i>
+									</a>
+                                    <form action="{{path('admin_genre_delete', {'id' : genre.id})}}" method="POST" style="display : inline" onsubmit="return confirm('Confirmez vous cette suppression ?');">
+                                        <input type="hidden" name="_token" value="{{csrf_token('delete' ~ genre.id)}}">
+                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                    </form>
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="3" class="text-center">Aucun genre trouvé pour le moment !</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+{% endblock %}
