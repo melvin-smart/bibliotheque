@@ -22,7 +22,7 @@ class AppFixtures extends Fixture
         $admin->setPhone('679117686');
         $admin->setEmail('melvin@smartbiblio.com');
         $admin->setRoles(['ROLE_ADMIN']);
-        $hased = $this->user_password->hashPassword($admin, 'papaetmaman');
+        $hased = $this->user_password->hashPassword($admin, 'lecielestbleu');
         $admin->setPassword($hased);
 
         $manager->persist($admin);
