@@ -1,0 +1,34 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Gestion des emprunts
+{% endblock %}
+
+{% block body %}
+	<div class="container p-3">
+		<div class="card mt-3">
+			<div class="card-header d-flex justify-content-between align-item-center">
+				<h2>Creer un emprunt avec un nouvel emprunteur</h2>
+				<a href="{{path('admin_emprunt_new')}}" class="btn btn-primary fw-bold shadow">
+					<i class="fa fa-users"></i>
+					Selctionnez un emprunteur existant</a>
+			</div>
+			<div class="card-body mt-2">
+				{{form_start(form, {'attr' : {'class': 'row'}})}}
+				<div class="col-lg-4 col-12">{{form_row(form.nom)}}</div>
+				<div class="col-lg-4 col-12">{{form_row(form.prenom)}}</div>
+				<div class="col-lg-4 col-12">{{form_row(form.email)}}</div>
+				<div class="col-lg-6 col-12">{{form_row(form.phone)}}</div>
+                <div class="col-lg-6 col-12">{{form_row(form.date_inscription)}}</div>
+                <div class="col-12">{{form_row(form.adresse)}}</div>
+				<div class="col-lg-6 col-12">{{form_row(form.livre)}}</div>
+                <div class="col-lg-3 col-12">{{form_row(form.date_emprunt)}}</div> 
+				<div class="col-lg-3 col-12">{{form_row(form.date_retour)}}</div>
+                <div class="col-12">{{form_row(form.statut)}}</div>   
+				{{form_end(form)}}
+				<a href="{{path('admin_emprunt_index')}}" class="btn btn-secondary w-25 fw-bold shadow">Retour a la liste</a>
+			</div>
+		</div>
+
+	</div>
+
+{% endblock %}

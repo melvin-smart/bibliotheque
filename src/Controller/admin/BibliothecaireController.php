@@ -12,13 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('smart-biblio/admin/bibliothecaire')]
+#[Route('smart-biblio/admin/utilisateur')]
 class BibliothecaireController extends AbstractController
 {
     /**
      * Create
      */
-    #[Route('/new', name: 'admin_bibliothecaire_new', methods: ['POST', 'GET'])]
+    #[Route('/bibliothecaire/new', name: 'admin_utilisateur_bibliothecaire_new', methods: ['POST', 'GET'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasherInterface): Response
     {
         $bibliothecaire = new User();
@@ -45,7 +45,7 @@ class BibliothecaireController extends AbstractController
     /**
      * Read
      */
-    #[Route('/', name: 'admin_bibliothecaire_index', methods: ['GET'])]
+    #[Route('/bibliothecaire', name: 'admin_utilisateur_bibliothecaire_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
         $bibliothecaires = $userRepository->findByRole("ROLE_BIBLIOTHECAIRE");
@@ -59,7 +59,7 @@ class BibliothecaireController extends AbstractController
     /**
      * Update
      */
-    #[Route('{id}/edit', name: 'admin_bibliothecaire_edit', methods: ['POST', 'GET'])]
+    #[Route('/bibliothecaire{id}/edit', name: 'admin_utilisateur_bibliothecaire_edit', methods: ['POST', 'GET'])]
     public function edit(Request $request, EntityManagerInterface $entityManager, User $bibliothecaire, UserPasswordHasherInterface $userPasswordHasherInterface): Response
     {
         $form = $this->createForm(UserType::class, $bibliothecaire);
@@ -67,7 +67,7 @@ class BibliothecaireController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $pass = $form->get('password')->getData();
-            if ($pass) {
+            if (!(empty($pass))) {
                 $bibliothecaire->setPassword($userPasswordHasherInterface->hashPassword($bibliothecaire, $pass));
                 $entityManager->flush();
             } else {
@@ -82,5 +82,23 @@ class BibliothecaireController extends AbstractController
             'bibliothecaire' => $bibliothecaire,
             'user' => 'bibliothecaire',
         ]);
+    }
+
+    /**
+     * Delete
+     */
+    #[Route('/{id}', name: 'admin_utilisateur_bibliothecaire_delete', methods: ['POST'])]
+    public function delete(Request $request, EntityManagerInterface $entityManager, User $bibliothecaire): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $bibliothecaire->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($bibliothecaire);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Suppression effectuée avec succès');
+        } else {
+            $this->addFlash('danger', 'Erreur de securité, suppression impossible !');
+        }
+
+        return $this->redirectToRoute('admin_utilisateur_bibliothecaire_index');
     }
 }

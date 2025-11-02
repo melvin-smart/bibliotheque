@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Gestion des emprunts
+{% endblock %}
+
+{% block body %}
+	<div class="container p-3">
+		<div class="card mt-3">
+			<div class="card-header">
+				<h2>Creer un emprunt</h2>
+			</div>
+			<div class="card-body mt-2">
+				{{form_start(form, {'attr' : {'class' : 'row'}})}}
+				<div class="col-lg-6 col-12">{{form_row(form.emprunteur)}}</div>
+				<div class="col-lg-6 col-12">{{form_row(form.livre)}}</div>
+                <div class="col-lg-6 col-12">{{form_row(form.date_emprunt)}}</div> 
+				<div class="col-lg-6 col-12">{{form_row(form.date_retour)}}</div>
+                <div class="col-12">{{form_row(form.statut)}}</div>   
+				{{form_end(form)}}
+                <a href="{{path('admin_emprunt_index')}}" class="btn btn-secondary fw-bold shadow w-25">Retour a la liste</a>
+			</div>
+		</div>
+
+	</div>
+
+{% endblock %}

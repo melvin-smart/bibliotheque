@@ -15,11 +15,11 @@
 					{% endif %}
 				</h2>
 				{% if user == 'bibliothecaire' %}
-					<a class="btn btn-primary fw-bold shadow" href="{{path('admin_bibliothecaire_new')}}">
+					<a class="btn btn-primary fw-bold shadow" href="{{path('admin_utilisateur_bibliothecaire_new')}}">
 						<i class="fa fa-plus"></i>
 						Ajouter un bibliothecaire</a>
 				{% else %}
-					<a class="btn btn-primary fw-bold shadow" href="{{path('admin_emprunteur_new')}}">
+					<a class="btn btn-primary fw-bold shadow" href="{{path('admin_utilisateur_emprunteur_new')}}">
 						<i class="fa fa-plus"></i>
 						Ajouter un emprunteur</a>
 				{% endif %}
@@ -47,15 +47,15 @@
 									<td>{{bibliothecaire.email}}</td>
 									<td>{{bibliothecaire.phone}}</td>
 									<td>
-										<a href="{{path('admin_bibliothecaire_edit', {'id' : bibliothecaire.id})}}" class="btn btn-success btn-sm shadow" title="Modifier">
+										<a href="{{path('admin_utilisateur_bibliothecaire_edit', {'id' : bibliothecaire.id})}}" class="btn btn-success btn-sm shadow" title="Modifier">
 											<i class="fa fa-pen"></i>
 										</a>
-										{# <form action="{{path('admin_livre_delete', {'id' : livre.id})}}" method="POST" style="display : inline" onsubmit="return confirm('Confirmez vous cette suppression ?');">
-											<input type="hidden" name="_token" value="{{csrf_token('delete' ~ livre.id)}}">
+										<form action="{{path('admin_utilisateur_bibliothecaire_delete', {'id' : bibliothecaire.id})}}" method="POST" style="display : inline" onsubmit="return confirm('Confirmez vous cette suppression ?');">
+											<input type="hidden" name="_token" value="{{csrf_token('delete' ~ bibliothecaire.id)}}">
 											<button type="submit" class="btn btn-sm btn-danger">
 												<i class="fa fa-trash"></i>
 											</button>
-										</form> #}
+										</form>
 									</td>
 								</tr>
 							{% else %}
@@ -73,7 +73,7 @@
 								<th>Nom Complet</th>
 								<th>email</th>
 								<th>telephone</th>
-                                {# <th>Date inscription</th> #}
+                                <th>Date inscription</th>
 								<th>Options</th>
 							</tr>
 						</thead>
@@ -87,22 +87,22 @@
 										{{emprunteur.prenom}}</td>
 									<td>{{emprunteur.email}}</td>
 									<td>{{emprunteur.phone}}</td>
-									{# <td>{{emprunteur.dateInscription}}</td> #}
+									<td>{{emprunteur.dateInscription|date('d/m/Y')}}</td>
 									<td>
-										<a href="{{path('admin_emprunteur_edit', {'id' : emprunteur.id})}}" class="btn btn-success btn-sm shadow" title="Modifier">
+										<a href="{{path('admin_utilisateur_emprunteur_edit', {'id' : emprunteur.id})}}" class="btn btn-success btn-sm shadow" title="Modifier">
 											<i class="fa fa-pen"></i>
 										</a>
-										{# <form action="{{path('admin_livre_delete', {'id' : livre.id})}}" method="POST" style="display : inline" onsubmit="return confirm('Confirmez vous cette suppression ?');">
-											<input type="hidden" name="_token" value="{{csrf_token('delete' ~ livre.id)}}">
+										<form action="{{path('admin_utilisateur_emprunteur_edit', {'id' : emprunteur.id})}}" method="POST" style="display : inline" onsubmit="return confirm('Confirmez vous cette suppression ?');">
+											<input type="hidden" name="_token" value="{{csrf_token('delete' ~ emprunteur.id)}}">
 											<button type="submit" class="btn btn-sm btn-danger">
 												<i class="fa fa-trash"></i>
 											</button>
-										</form> #}
+										</form>
 									</td>
 								</tr>
 							{% else %}
 								<tr>
-									<td colspan="5" class="text-center">Aucun emprunteur trouvé pour le moment !</td>
+									<td colspan="6" class="text-center">Aucun emprunteur trouvé pour le moment !</td>
 								</tr>
 							{% endfor %}
 						</tbody>

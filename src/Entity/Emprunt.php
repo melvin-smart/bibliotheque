@@ -38,6 +38,10 @@ class Emprunt
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $date_validation = null;
 
+    #[ORM\ManyToOne(inversedBy: 'emprunts')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Livre $livre = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -135,6 +139,18 @@ class Emprunt
     public function setDateValidation(?\DateTimeImmutable $date_validation): static
     {
         $this->date_validation = $date_validation;
+
+        return $this;
+    }
+
+    public function getLivre(): ?Livre
+    {
+        return $this->livre;
+    }
+
+    public function setLivre(?Livre $livre): static
+    {
+        $this->livre = $livre;
 
         return $this;
     }

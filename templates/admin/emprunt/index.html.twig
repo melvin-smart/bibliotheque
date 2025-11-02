@@ -1,0 +1,125 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Gestion des emprunts
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid p-3">
+		<div class="card mt-3">
+			<div class="card-header d-flex justify-content-between align-item-center">
+				<h2>Liste des emprunts</h2>
+				<a href="{{path('admin_emprunt_create')}}" class="btn btn-primary fw-bold shadow">
+					<i class="fa fa-plus"></i>
+					Creer un emprunt</a>
+
+			</div>
+			<div class="card-body mt-2">
+				<table class="table table-striped text-center">
+					<thead class="table-primary">
+						<tr>
+							<th>N°</th>
+							<th>Emprunteur</th>
+							<th>Livre emprunté</th>
+							<th>Date emprunt</th>
+							<th>Date de retour</th>
+							<th>Date de retour reelle</th>
+							<th>statut</th>
+							<th>Validé par</th>
+							<th>Date de validation</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<thead>
+						{% set i = 0 %}
+						{% for emprunt in emprunts %}
+							{% set i = i + 1 %}
+							<tr>
+								<td>
+									{{i}}
+								</td>
+								<td>
+									{{emprunt.emprunteur.nom ~ ' '~ emprunt.emprunteur.prenom}}
+								</td>
+								<td>
+									{{emprunt.livre.titre}}
+								</td>
+								<td>
+									{{emprunt.dateEmprunt|date('d/m/Y')}}
+								</td>
+								<td>
+									{{emprunt.dateRetour|date('d/m/Y')}}
+								</td>
+								<td>
+									{% if emprunt.dateRetourReelle %}
+										{{emprunt.dateRetourReelle|date('d/m/Y')}}
+									{% else %}
+										N/A
+									{% endif %}
+								</td>
+								<td>
+									{% set statutColor = 'success' %}
+									{% if emprunt.statut == "En attente" %}
+										{% set statutColor = 'info' %}
+									{% elseif  emprunt.statut == "En retard" %}
+										{% set statutColor = 'warning' %}
+									{% elseif  emprunt.statut == "Refusé" %}
+										{% set statutColor = 'danger' %}
+									{% elseif  emprunt.statut == "Rendu" %}
+										{% set statutColor = 'secondary' %}
+									{% endif %}
+
+									<span class="badge bg-{{statutColor}}">{{emprunt.statut}}</span>
+								</td>
+								<td>
+									{{emprunt.bibliothecaire.nom}}
+									{{emprunt.bibliothecaire.prenom}}
+								</td>
+								<td>
+									{{emprunt.dateValidation|date('d/m/Y')}}
+								</td>
+								<td>
+									<a class="btn btn-sm btn-success fw-bold shadow" href="{{path('admin_emprunt_edit', {'id' : emprunt.id})}}">
+										<i class="fa fa-pen" title="Modifier"></i>
+									</a>
+									{% if emprunt.statut == 'En attente' %}
+										<form method="POST" action="{{path('admin_emprunt_valider', {'id' : emprunt.id})}}" onsubmit="return confirm('Souhaitez vous approuver cet emprunt ?');" style=" display: inline">
+											<input type="hidden" name="_token" value="{{csrf_token('validate' ~ emprunt.id)}}">
+											<button class="btn btn-sm btn-primary shadow" type="submit" title="Approuver">
+												<i class="fa fa-thumbs-up" aria-hidden="true"></i>
+											</button>
+										</form>
+
+										<form method="POST" action="{{path('admin_emprunt_refuser', {'id' : emprunt.id})}}" onsubmit="return confirm('Souhaitez vous refuser cet emprunt ?');" style=" display: inline">
+											<input type="hidden" name="_token" value="{{csrf_token('refuse' ~ emprunt.id)}}">
+											<button class="btn btn-sm btn-warning shadow" type="submit" title="Refuser">
+												<i class="fa fa-thumbs-down" aria-hidden="true"></i>
+											</button>
+										</form>
+									{% elseif emprunt.statut == 'Approuvé' or emprunt.statut == 'En retard'%}
+										<form method="POST" action="{{path('admin_emprunt_rendu', {'id' : emprunt.id})}}" onsubmit="return confirm('Souhaitez vous marquer cet emprunt comme rendu ?');" style=" display: inline">
+											<input type="hidden" name="_token" value="{{csrf_token('rendu' ~ emprunt.id)}}">
+											<button class="btn btn-sm btn-secondary shadow" type="submit" title="Rendu">
+												<i class="fa fa-check-double" aria-hidden="true"></i>
+											</button>
+										</form>
+									{% endif %}
+
+									<form method="POST" action="{{path('admin_emprunt_delete', {'id' : emprunt.id})}}" onsubmit="return confirm('Confirmez vous cette suppression ?');" style="display: inline">
+										<input type="hidden" name="_token" value="{{csrf_token('delete' ~ emprunt.id)}}">
+										<button class="btn btn-sm btn-danger fw-bold shadow" type="submit">
+											<i class="fa fa-trash"></i>
+										</button>
+									</form>
+								</td>
+							</tr>
+						</td>
+					</thead>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="11" class="text-center">Aucun emprunt pour le moment !</td>
+				</tr>
+			{% endfor %}
+		</thead>
+	</table>
+</div></div></div>{% endblock %}

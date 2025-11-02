@@ -42,7 +42,7 @@
 						</li>
 						<li class="nav-item me-5 mb-2 mb-lg-0">
 							<a href="{{path('admin_genre_index')}}" class="nav-link shadow profil {{app.current_route starts with 'admin_genre' ? 'active' : ''}}">
-								<i class="fa fa-cubes" aria-hidden="true">
+								<i class="fa fa-tags" aria-hidden="true">
 									Genres</i>
 							</a>
 						</li>
@@ -53,25 +53,25 @@
 							</a>
 						</li>
 						<li class="nav-item me-5 mb-2 mb-lg-0">
-							<a href="" class="nav-link shadow profil">
-								<i class="fa fa-recycle" aria-hidden="true">
+							<a href="{{path('admin_emprunt_index')}}" class="nav-link shadow profil {{app.current_route starts with 'admin_emprunt' ? 'active' : ''}} ">
+								<i class="fa fa-exchange-alt" aria-hidden="true">
 									Emprunts</i>
 							</a>
 						</li>
 						{% if is_granted('ROLE_ADMIN') %}
 							<li class="nav-item dropdown me-5 mb-2 mb-lg-0">
-								<a href="#" class="nav-link dropdown-toggle profil shadow {{app.current_route starts with 'admin_emprunteur' or 'admin_bibliothecaire' ? 'active' : ''}} " id="users" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<a href="#" class="nav-link dropdown-toggle profil shadow {{app.current_route starts with 'admin_utilisateur' ? 'active' : ''}} " id="users" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<i class="fa fa-users" aria-hidden="true">
 										Utilisateurs</i>
 								</a>
 								<div class="dropdown-menu" aria-labelledby="users">
-									<a class="dropdown-item" href="{{path('admin_bibliothecaire_index')}}">Bibliothécaires</a>
-									<a class="dropdown-item" href="{{path('admin_emprunteur_index')}}">Emprunteurs</a>
+									<a class="dropdown-item" href="{{path('admin_utilisateur_bibliothecaire_index')}}">Bibliothécaires</a>
+									<a class="dropdown-item" href="{{path('admin_utilisateur_emprunteur_index')}}">Emprunteurs</a>
 								</div>
 							</li>
 						{% else %}
 							<li class="nav-item me-5 mb-2 mb-lg-0">
-								<a href="{{path('admin_emprunteur_index')}}" class="nav-link shadow profil">
+								<a href="{{path('admin_utilisateur_emprunteur_index')}}" class="nav-link shadow profil {{app.current_route starts with 'admin_utilisateur' ? 'active' : ''}} ">
 									<i class="fa fa-users" aria-hidden="true">
 										Emprunteurs</i>
 								</a>
@@ -99,14 +99,15 @@
 			<div class="container-fluid mt-3">
 				{% for label, messages in app.flashes %}
 					{% for message in messages %}
-						<div class="alert alert-{{label}} text-center">
+						<div class="alert alert-{{label}} alert-dismissible fade show text-center" role="alert">
 							<strong>{{message}}</strong>
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 						</div>
 					{% endfor %}
 				{% endfor %}
 			</div>
 
-		
+
 		{% endif %}
 
 		{% block body %}{% endblock %}

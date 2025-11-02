@@ -24,9 +24,9 @@
 				<div class="col-lg-12 {{user == 'bibliothecaire' ? 'visually-hidden' : ''}} col-12">{{form_row(form.date_inscription)}}</div>
 				{{form_end(form)}}
 				{% if user == 'bibliothecaire' %}
-					<a class="btn btn-secondary w-25 fw-bold shadow" href="{{path('admin_bibliothecaire_index')}}">Retour a la liste</a>
+					<a class="btn btn-secondary w-25 fw-bold shadow" href="{{path('admin_utilisateur_bibliothecaire_index')}}">Retour a la liste</a>
 				{% else %}
-					<a class="btn btn-secondary w-25 fw-bold shadow" href="{{path('admin_emprunteur_index')}}">Retour a la liste</a>
+					<a class="btn btn-secondary w-25 fw-bold shadow" href="{{path('admin_utilisateur_emprunteur_index')}}">Retour a la liste</a>
 				{% endif %}
 			</div>
 		</div>

@@ -29,6 +29,10 @@ class LivreController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($livre->getQteDispo() > $livre->getQteTotale()) {
+                $this->addFlash('danger', 'La quantité totale ne peut pas etre inferieure a la quantité disponible !');
+                return $this->redirectToRoute('admin_livre_index');
+            }
             $imgFiles = $form->get('imgFiles')->getData();
             foreach ($imgFiles as $imgFile) {
                 if ($imgFile) {
@@ -83,12 +87,16 @@ class LivreController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            if ($livre->getQteDispo() > $livre->getQteTotale()) {
+                $this->addFlash('danger', 'La quantité totale ne peut pas etre inferieure a la quantité disponible !');
+                return $this->redirectToRoute('admin_livre_index');
+            }
             $newImgFiles = $form->get('imgFiles')->getData();
             if ($newImgFiles) {
                 $oldImgFiles = $em->getRepository(ImgLivre::class)->findBy(['livre' => $livre]);
                 foreach ($oldImgFiles as $oldImgFile) {
                     if ($oldImgFile) {
-                        $oldImgPath = $this->getParameter('livre_directory').'/'. $oldImgFile->getFilename();
+                        $oldImgPath = $this->getParameter('livre_directory') . '/' . $oldImgFile->getFilename();
                         unlink($oldImgPath);
                         $livre->removeImgLivre($oldImgFile);
                     }

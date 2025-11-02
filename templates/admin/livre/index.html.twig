@@ -22,7 +22,7 @@
 							<th>Auteur</th>
 							<th>ISBN</th>
 							<th>Genre</th>
-							{# <th>Date de publication</th> #}
+							<th>Date de publication</th>
 							<th>Quantité totale</th>
 							<th>Quantité disponible</th>
 							<th>Description</th>
@@ -46,7 +46,7 @@
 								<td>{{livre.auteur}}</td>
 								<td>{{livre.isbn}}</td>
 								<td>{{livre.genre.intitule}}</td>
-								{# <td>{{livre.datePublication}}</td> #}
+								<td>{{livre.datePublication|date('d/m/Y')}}</td>
 								<td>{{livre.qteTotale}}</td>
 								<td>{{livre.qteDispo}}</td>
 								{% if livre.description %}
@@ -70,7 +70,7 @@
 							</tr>
 						{% else %}
 							<tr>
-								<td colspan="10" class="text-center">Aucun livre trouvé pour le moment !</td>
+								<td colspan="11" class="text-center">Aucun livre trouvé pour le moment !</td>
 							</tr>
 						{% endfor %}
 					</tbody>

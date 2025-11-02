@@ -36,7 +36,7 @@ class LivreType extends AbstractType
             ])
             ->add('genre', EntityType::class, [
                 'class' => Genre::class,
-                'label' => 'Catégorie',
+                'label' => 'Genre',
                 'choice_label' => 'intitule',
                 'attr' => ['class' => 'form-select mb-3']
             ])
